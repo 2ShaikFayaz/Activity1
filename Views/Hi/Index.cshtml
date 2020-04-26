@@ -1,0 +1,62 @@
+﻿@model Activity1.Models.Student
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<h2>Index</h2>
+<meta charset="utf-8">
+<title>jQuery UI Autocomplete - Default functionality</title>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<br />
+<br />
+<br />
+<style>
+    .form-control {
+        width: unset !important;
+    }
+</style>
+<div class="container">
+    <div class="ui-widget ">
+        <p>The Total Students</p>
+        <label for="tags">Students are: </label>
+
+        @using (Html.BeginForm())
+        {
+            <div class="col-md-12 autocomplete">
+                <input class="form-control autocomplete col-md-4" id="tags" name="tags" type="text">
+                <input class="form-control col-md-1" type="submit" value="search" />
+            </div>
+        }
+    </div>
+    <br />
+    @if (Model != null)
+    {
+        <h1>@Model.Id</h1>
+        <h2>@Model.Name</h2>
+        <h3>@Model.Marks</h3>
+    }
+</div>
+
+<script>
+    $(function () {
+        var availableTags = [];
+        $.ajax(
+            {
+                type: 'GET',
+                url: '../Hi/getcompanies',
+                success: function (response) {
+                    $.each(response, function (key, item) {
+                        availableTags.push(item.Name);
+                    });
+                }
+            });
+        $("#tags").autocomplete({
+            source: availableTags
+        });
+    });
+</script>
+
